@@ -3,7 +3,27 @@
 import { useState } from "react";
 
 export default function Home() {
-  
+  const [id, setId] = useState('');
+  const [name, setName] = useState('');
+  const [result, setResult] = useState(null);
+
+  const handleGet = async () => {
+    const response = await fetch(`/api/author?id=${id}`);
+    const data = await response.json();
+    setResult(data);
+  };
+
+  const handlePost = async () => {
+    const response = await fetch('/api/author', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name }),
+    });
+    const data = await response.json();
+    setResult(data);
+  };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
