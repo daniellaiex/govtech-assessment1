@@ -1,16 +1,34 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import AuthorTable from "./components/AuthorTable";
+import SearchBar from "./components/SearchBar";
+
+interface Author {
+  id: number;
+  name: string;
+  createdAt: string;
+}
 
 export default function Home() {
   const [id, setId] = useState('');
   const [name, setName] = useState('');
-  const [result, setResult] = useState(null);
+  const [authors, setAuthors] = useState<Author[]>([]);
+
+  useEffect(() => {
+    const fetchAuthors = async () => {
+      const response = await fetch('/api/author');
+      const data = await response.json();
+      setAuthors(data);
+    };
+
+    fetchAuthors();
+  }, []);
 
   const handleGet = async () => {
     const response = await fetch(`/api/author?id=${id}`);
     const data = await response.json();
-    setResult(data);
+    setAuthors(data);
   };
 
   const handlePost = async () => {
@@ -22,20 +40,26 @@ export default function Home() {
       body: JSON.stringify({ name }),
     });
     const data = await response.json();
-    setResult(data);
+    setAuthors((prevAuthors) => [...prevAuthors, data]);
+  };
+
+  const handleSearch = async (query: string) => {
+    if (query) {
+      const response = await fetch(`/api/author?name=${query}`);
+      const data = await response.json();
+      setAuthors(data);
+    } else {
+      // Fetch all authors if the search query is empty
+      const response = await fetch('/api/author');
+      const data = await response.json();
+      setAuthors(data);
+    }
   };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <h1>API Test</h1>
-        <div>
-          <label>
-            ID:
-            <input type="text" value={id} onChange={(e) => setId(e.target.value)} />
-          </label>
-          <button onClick={handleGet}>Get Author</button>
-        </div>
+        <h1>Author Adding System</h1>
         <div>
           <label>
             Name:
@@ -43,10 +67,15 @@ export default function Home() {
           </label>
           <button onClick={handlePost}>Create Author</button>
         </div>
-        {result && (
+        <SearchBar onSearch={handleSearch} />
+        {authors? (
           <div>
-            <h2>Result</h2>
-            <pre>{JSON.stringify(result, null, 2)}</pre>
+            <h2>Authors</h2>
+            <AuthorTable authors={authors} />
+          </div>
+        ) : (
+          <div>
+            <p>No authors found.</p>
           </div>
         )}
       </div>
