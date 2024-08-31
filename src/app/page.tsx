@@ -45,8 +45,6 @@ export default function Home() {
         body: JSON.stringify({ firstName, lastName }),
       });
 
-      console.log(response);
-
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to add author');
