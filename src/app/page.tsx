@@ -7,26 +7,13 @@ import SearchBar from "./components/SearchBar";
 import AddAuthorModal from "./components/AddAuthorModal";
 import Toast from "./components/Toast";
 import UserTable from "./components/UserTable";
-
-interface Author {
-  id: number;
-  authorFirstName: string;
-  authorLastName: string;
-  createdAt: string;
-}
-
-interface User {
-  id: number;
-  name: string;
-  role: string;
-}
+import { fetchUsers } from "./services/userService";
+import { Author, User } from "./types/types";
 
 export default function Home() {
   const [tabIndex, setTabIndex] = useState(0);
-  // const [id, setId] = useState('');
-  // const [name, setName] = useState('');
   const [authors, setAuthors] = useState<Author[]>([]);
-  // const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [toastOpen, setToastOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
@@ -39,14 +26,14 @@ export default function Home() {
       setAuthors(data);
     };
 
-    fetchAuthors();
-  }, []);
+    const getUsers = async () => {
+      const userData = await fetchUsers();
+      setUsers(userData);
+    }
 
-  // const handleGet = async () => {
-  //   const response = await fetch(`/api/author?id=${id}`);
-  //   const data = await response.json();
-  //   setAuthors(data);
-  // };
+    fetchAuthors();
+    getUsers();
+  }, []);
 
   const handlePost = async (firstName: string, lastName: string) => {
     try {
@@ -75,14 +62,19 @@ export default function Home() {
   };
 
   const handleSearch = async (query: string) => {
-    if (query) {
-      const response = await fetch(`/api/author?name=${query}`);
-      const data = await response.json();
-      setAuthors(data);
+    if (tabIndex === 0) {
+      if (query) {
+        const response = await fetch(`/api/author?name=${query}`);
+        const data = await response.json();
+        setAuthors(data);
+      } else {
+        const response = await fetch('/api/author');
+        const data = await response.json();
+        setAuthors(data);
+      }
     } else {
-      const response = await fetch('/api/author');
-      const data = await response.json();
-      setAuthors(data);
+      const userData = await fetchUsers(query);
+      setUsers(userData);
     }
   };
 
@@ -114,7 +106,7 @@ export default function Home() {
           <Box className="box-padding">
             <Box className="box-centered">
               <Box className="box-responsive-width">
-                <SearchBar onSearch={handleSearch} />
+                <SearchBar onSearch={handleSearch} label="Search for Authors name" />
               </Box>
               <Button variant="contained" onClick={() => setIsModalOpen(true)} className="button-margin-left">
                 Add Author
@@ -126,8 +118,12 @@ export default function Home() {
         )}
         {tabIndex === 1 && (
           <Box className="box-padding">
-            <SearchBar onSearch={handleSearch} />
-            <UserTable />
+            <Box className="box-centered">
+              <Box className="box-responsive-width">
+                <SearchBar onSearch={handleSearch} label="Search for Users username" />
+              </Box>
+            </Box>
+            <UserTable users={users}/>
           </Box>
         )}
       </Box>
