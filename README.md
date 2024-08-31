@@ -1,36 +1,38 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# GovTech-Assessment1
+## Project Title: Author/User Registry
 
-## Getting Started
+### Description
+This project is a single-page application (SPA) built with React JS. It allows users to:
 
-First, run the development server:
+- Submit Author Names: Users can enter author names into a form and submit them.
+- Display Submitted Authors: The submitted author names are displayed in a list on the page.
+- Retrieve User List from API: The application fetches a list of users from an external API (https://jsonplaceholder.typicode.com/users).
+- Display Retrieved User List: The retrieved user data is displayed in a separate list.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Features:
+* Autocomplete search function on frontend so users can find staff entries without keying in entire name
+* Ensure unique authors are submitted
+* Sorting function by ID, Name and Username
+* Logical sectioning of data on the table
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Prerequisites
+- Node.js and npm (or yarn) installed on your system.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Install Dependencies
+- ```npm install```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+### Set up the database
+1. Add the .env file sent over. It should contain DATABASE_URL="..."
+2. Run ```npx prisma migrate dev```. Or if you would like to start the database from scratch, you may run ```npx prisma migrate reset```
 
-## Learn More
+### Start the application
+- Development server: ```npm run dev```
+- Production server: ```npm run build``` then ```npm start```
 
-To learn more about Next.js, take a look at the following resources:
+Built with 
+<p align="center">
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=nodejs,ts,react,postgres,prisma" />
+  </a>
+</p>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
