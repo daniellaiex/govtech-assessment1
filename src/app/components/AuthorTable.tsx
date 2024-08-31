@@ -3,7 +3,7 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 
 interface Author {
   id: number;
-  name: string;
+  authorName: string;
   createdAt: string;
 }
 
@@ -13,27 +13,28 @@ interface AuthorTableProps {
 
 const AuthorTable: React.FC<AuthorTableProps> = ({ authors }) => {
     const authorHeaders = ['ID', 'Author Name', 'Creation Time'];
+    console.log(authors);
 
     return (
         <TableContainer component={Paper}>
-        <Table>
-            <TableHead>
-            <TableRow>
-                {authorHeaders.map((header) => {
-                    return <TableCell key={header}>{header}</TableCell>;
-                })}
-            </TableRow>
-            </TableHead>
-            <TableBody>
-            {authors.map((author) => (
-                <TableRow key={author.id}>
-                    <TableCell>{author.id}</TableCell>
-                    <TableCell>{author.name}</TableCell>
-                    <TableCell>{author.createdAt}</TableCell>
+            <Table>
+                <TableHead>
+                <TableRow>
+                    {authorHeaders.map((header, index) => {
+                        return <TableCell key={index}>{header}</TableCell>;
+                    })}
                 </TableRow>
-            ))}
-            </TableBody>
-        </Table>
+                </TableHead>
+                <TableBody>
+                {authors.map((author, index) => (
+                    <TableRow key={index}>
+                        <TableCell>{author.id}</TableCell>
+                        <TableCell>{author.authorName}</TableCell>
+                        <TableCell>{author.createdAt}</TableCell>
+                    </TableRow>
+                ))}
+                </TableBody>
+            </Table>
         </TableContainer>
     );
 };
