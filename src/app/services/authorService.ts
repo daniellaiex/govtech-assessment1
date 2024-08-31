@@ -1,28 +1,51 @@
-import exp from "constants";
 import prisma from "../../../prisma/client";
 
 const getAllAuthors = async () => {
   return await prisma.author.findMany();
 };
 
-const getAuthorById = async (id: number) => {
-  return await prisma.author.findUnique({
+const searchAuthorByName = async (name: string) => {
+  return await prisma.author.findMany({
     where: {
-      id: id,
+      OR: [
+        {
+          authorFirstName: {
+            startsWith: name,
+            mode: 'insensitive',
+          },
+        },
+        {
+          authorLastName: {
+            startsWith: name,
+            mode: 'insensitive',
+          },
+        },
+      ],
     },
   });
-};
+}
 
-const createAuthor = async (name: string) => {
+const getAuthorByName = async (firstName: string, lastName: string) => {
+  return await prisma.author.findFirst({
+    where: {
+      authorFirstName: firstName,
+      authorLastName: lastName
+    },
+  });
+}
+
+const createAuthor = async (firstName: string, lastName: string) => {
   return await prisma.author.create({
     data: {
-      authorName: name,
+      authorFirstName: firstName,
+      authorLastName: lastName
     },
   });
 };
 
 export const authorService = {
   getAllAuthors,
-  getAuthorById,
+  searchAuthorByName,
+  getAuthorByName,
   createAuthor
 }
