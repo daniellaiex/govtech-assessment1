@@ -3,7 +3,8 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 
 interface Author {
   id: number;
-  authorName: string;
+  authorFirstName: string;
+  authorLastName: string;
   createdAt: string;
 }
 
@@ -12,7 +13,7 @@ interface AuthorTableProps {
 }
 
 const AuthorTable: React.FC<AuthorTableProps> = ({ authors }) => {
-    const authorHeaders = ['ID', 'Author Name', 'Creation Time'];
+    const authorHeaders = ['ID', 'First Name', 'Last Name', 'Creation Time'];
     console.log(authors);
 
     return (
@@ -29,7 +30,8 @@ const AuthorTable: React.FC<AuthorTableProps> = ({ authors }) => {
                 {authors.map((author, index) => (
                     <TableRow key={index}>
                         <TableCell>{author.id}</TableCell>
-                        <TableCell>{author.authorName}</TableCell>
+                        <TableCell>{author.authorFirstName}</TableCell>
+                        <TableCell>{author.authorLastName}</TableCell>
                         <TableCell>{author.createdAt}</TableCell>
                     </TableRow>
                 ))}

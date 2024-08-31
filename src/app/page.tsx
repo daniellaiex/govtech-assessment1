@@ -9,7 +9,8 @@ import Toast from "./components/Toast";
 
 interface Author {
   id: number;
-  authorName: string;
+  authorFirstName: string;
+  authorLastName: string;
   createdAt: string;
 }
 
@@ -40,20 +41,20 @@ export default function Home() {
     fetchAuthors();
   }, []);
 
-  const handleGet = async () => {
-    const response = await fetch(`/api/author?id=${id}`);
-    const data = await response.json();
-    setAuthors(data);
-  };
+  // const handleGet = async () => {
+  //   const response = await fetch(`/api/author?id=${id}`);
+  //   const data = await response.json();
+  //   setAuthors(data);
+  // };
 
-  const handlePost = async (name: string) => {
+  const handlePost = async (firstName: string, lastName: string) => {
     try {
       const response = await fetch('/api/author', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name }),
+        body: JSON.stringify({ firstName, lastName }),
       });
 
       console.log(response);

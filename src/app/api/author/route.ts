@@ -3,7 +3,9 @@ import { z } from "zod";
 
 const ParamsSchema = z.object({
     id: z.coerce.number().optional(),
-    name: z.string().optional()
+    firstName: z.string().optional(),
+    lastName: z.string().optional(),
+    name: z.string().optional(),
 });
 
 // GET function to fetch authors
@@ -34,23 +36,25 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
         const params = ParamsSchema.parse({
-            name: body.name,
+            firstName: body.firstName,
+            lastName: body.lastName
         });
-        console.log(params.name);
+        console.log(params.firstName);
+        console.log(params.lastName);
 
-        if (!params.name) {
-            return new Response(JSON.stringify({ error: 'Name is required' }), { status: 400 });
+        if (!params.firstName || !params.lastName) {
+            return new Response(JSON.stringify({ error: 'Both first and last name are required' }), { status: 400 });
         }
 
         // Check if the author already exists
-        const existingAuthor = await authorService.getAuthorByName(params.name);
+        const existingAuthor = await authorService.getAuthorByName(params.firstName, params.lastName);
         console.log(existingAuthor);
         if (existingAuthor) {
             console.log("Author already exists");
             return new Response(JSON.stringify({ error: 'Author already exists' }), { status: 409 });
         }
 
-        const newAuthor = await authorService.createAuthor(params.name);
+        const newAuthor = await authorService.createAuthor(params.firstName, params.lastName);
         return new Response(JSON.stringify(newAuthor), { status: 201 });
     } catch (error) {
         console.error('Error creating author:', error);

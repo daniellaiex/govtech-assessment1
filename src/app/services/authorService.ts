@@ -1,4 +1,3 @@
-import exp from "constants";
 import prisma from "../../../prisma/client";
 
 const getAllAuthors = async () => {
@@ -16,26 +15,38 @@ const getAuthorById = async (id: number) => {
 const searchAuthorByName = async (name: string) => {
   return await prisma.author.findMany({
     where: {
-      authorName: {
-        startsWith: name,
-        mode: 'insensitive',
-      }
+      OR: [
+        {
+          authorFirstName: {
+            startsWith: name,
+            mode: 'insensitive',
+          },
+        },
+        {
+          authorLastName: {
+            startsWith: name,
+            mode: 'insensitive',
+          },
+        },
+      ],
     },
   });
 }
 
-const getAuthorByName = async (name: string) => {
+const getAuthorByName = async (firstName: string, lastName: string) => {
   return await prisma.author.findFirst({
     where: {
-      authorName: name,
+      authorFirstName: firstName,
+      authorLastName: lastName
     },
   });
 }
 
-const createAuthor = async (name: string) => {
+const createAuthor = async (firstName: string, lastName: string) => {
   return await prisma.author.create({
     data: {
-      authorName: name,
+      authorFirstName: firstName,
+      authorLastName: lastName
     },
   });
 };
