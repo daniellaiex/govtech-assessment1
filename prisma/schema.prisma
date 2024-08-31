@@ -15,7 +15,7 @@ datasource db {
 
 model Author {
   id                   Int           @id @default(autoincrement())
-  authorFirstName      String?        @unique
+  authorFirstName      String?       
   authorLastName       String?
   createdAt            DateTime      @default(now())
 
