@@ -27,11 +27,11 @@ const AddAuthorModal: React.FC<AddAuthorModalProps> = ({ open, onClose, onSubmit
 
     return (
         <Modal open={open} onClose={onClose}>
-        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4 }}>
+        <Box className="modal-box">
             <IconButton
                 aria-label="close"
                 onClick={onClose}
-                sx={{ position: 'absolute', right: 8, top: 8 }}
+                className="modal-close-button"
             >
                 <CloseIcon />
             </IconButton>
@@ -39,20 +39,20 @@ const AddAuthorModal: React.FC<AddAuthorModalProps> = ({ open, onClose, onSubmit
                 Add Author
             </Typography>
             <TextField
-            fullWidth
-            label="First Name"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            sx={{ mt: 2 }}
+                fullWidth
+                label="First Name"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                className="modal-text-field"
             />
             <TextField
-            fullWidth
-            label="Last Name"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            sx={{ mt: 2 }}
+                fullWidth
+                label="Last Name"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                className="modal-text-field"
             />
-            <Button variant="contained" onClick={handleSubmit} sx={{ mt: 2 }}>
+            <Button variant="contained" onClick={handleSubmit} className="modal-submit-button">
                 Submit
             </Button>
         </Box>

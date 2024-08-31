@@ -11,7 +11,7 @@ interface ToastProps {
 const Toast: React.FC<ToastProps> = ({ open, message, onClose, type='success' }) => {
   return (
     <Snackbar open={open} autoHideDuration={5000} onClose={onClose}>
-      <Alert onClose={onClose} severity={type} sx={{ width: '100%' }}>
+      <Alert onClose={onClose} severity={type} className='toast-alert'>
         {message}
       </Alert>
     </Snackbar>

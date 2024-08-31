@@ -2,6 +2,90 @@
 @tailwind components;
 @tailwind utilities;
 
+.table-header-row {
+  background-color: #e0e0e0;
+}
+
+.table-header-cell {
+  font-weight: bold;
+}
+
+.modal-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background-color: #fff;
+  box-shadow: 24px;
+  padding: 16px;
+}
+
+.modal-close-button {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+}
+
+.modal-text-field {
+  margin-top: 16px;
+}
+
+.modal-submit-button {
+  margin-top: 16px;
+}
+
+.toast-alert {
+  width: 100%;
+}
+
+.main-container {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.25rem;
+}
+
+.box-full-width {
+  width: 100%;
+}
+
+.box-centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.box-responsive-width {
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .box-responsive-width {
+    width: 300px;
+  }
+}
+
+@media (min-width: 900px) {
+  .box-responsive-width {
+    width: 400px;
+  }
+}
+
+.button-margin-left {
+  margin-left: 0.5rem;
+}
+
+.box-padding {
+  padding: 0.75rem;
+}
+
+.typography-margin-bottom {
+  margin-bottom: 0.5rem;
+}
+
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

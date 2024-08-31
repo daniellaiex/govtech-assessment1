@@ -100,20 +100,22 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-24">
+    <main className="main-container">
       <Typography variant="h4" component="h1" align="center" gutterBottom>
         Author/User Registry
       </Typography>
-      <Box sx={{ width: '100%' }}>
+      <Box className="box-full-width">
         <Tabs value={tabIndex} onChange={handleTabChange} centered>
           <Tab label="Author" />
           <Tab label="User" />
         </Tabs>
         {tabIndex === 0 && (
-          <Box sx={{ p: 3 }}>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-              <SearchBar onSearch={handleSearch} />
-              <Button variant="contained" onClick={() => setIsModalOpen(true)}>
+          <Box className="box-padding">
+            <Box className="box-centered">
+              <Box className="box-responsive-width">
+                <SearchBar onSearch={handleSearch} />
+              </Box>
+              <Button variant="contained" onClick={() => setIsModalOpen(true)} className="button-margin-left">
                 Add Author
               </Button>
 
@@ -122,7 +124,7 @@ export default function Home() {
           </Box>
         )}
         {tabIndex === 1 && (
-          <Box sx={{ p: 3 }}>
+          <Box className="box-padding">
             <SearchBar onSearch={handleSearch} />
             {/* Replace with UserTable when available */}
             <Typography variant="h6" component="h2" align="center">

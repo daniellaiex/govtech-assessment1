@@ -56,9 +56,9 @@ const AuthorTable: React.FC<AuthorTableProps> = ({ authors }) => {
         <TableContainer component={Paper}>
             <Table>
                 <TableHead>
-                <TableRow>
+                <TableRow className='table-header-row'>
                     {authorHeaders.map((header) => (
-                        <TableCell key={header.key}>
+                        <TableCell key={header.key} className='table-header-cell'>
                             <TableSortLabel
                                 active={sortConfig.key === header.key}
                                 direction={sortConfig.key === header.key ? sortConfig.direction : 'asc'}
