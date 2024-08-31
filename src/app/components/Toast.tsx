@@ -1,12 +1,6 @@
 import React from 'react';
 import { Snackbar, Alert } from '@mui/material';
-
-interface ToastProps {
-  open: boolean;
-  message: string;
-  onClose: () => void;
-  type?: 'success' | 'error';
-}
+import { ToastProps } from '../types/types';
 
 const Toast: React.FC<ToastProps> = ({ open, message, onClose, type='success' }) => {
   return (

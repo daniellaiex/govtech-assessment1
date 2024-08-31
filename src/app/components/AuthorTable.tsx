@@ -1,18 +1,6 @@
 import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TableSortLabel } from '@mui/material';
-
-interface Author {
-  id: number;
-  authorFirstName: string;
-  authorLastName: string;
-  createdAt: string;
-}
-
-interface AuthorTableProps {
-  authors: Author[];
-}
-
-type AuthorKeys = keyof Author;
+import { AuthorTableProps, AuthorKeys } from '../types/types';
 
 const AuthorTable: React.FC<AuthorTableProps> = ({ authors }) => {
     const [sortConfig, setSortConfig] = useState<{ key: AuthorKeys, direction: 'asc' | 'desc' }>({ key: 'id', direction: 'asc' });

@@ -4,14 +4,6 @@ const getAllAuthors = async () => {
   return await prisma.author.findMany();
 };
 
-const getAuthorById = async (id: number) => {
-  return await prisma.author.findUnique({
-    where: {
-      id: id,
-    },
-  });
-};
-
 const searchAuthorByName = async (name: string) => {
   return await prisma.author.findMany({
     where: {
@@ -53,7 +45,6 @@ const createAuthor = async (firstName: string, lastName: string) => {
 
 export const authorService = {
   getAllAuthors,
-  // getAuthorById,
   searchAuthorByName,
   getAuthorByName,
   createAuthor
