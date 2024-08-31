@@ -30,7 +30,7 @@ Features:
 - Development server: ```npm run dev```
 - Production server: ```npm run build``` then ```npm start```
 
-Built with 
+Built with:
 <p align="center">
   <a href="https://skillicons.dev">
     <img src="https://skillicons.dev/icons?i=nodejs,ts,react,postgres,prisma" />
