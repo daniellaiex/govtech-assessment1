@@ -1,18 +1,15 @@
 import React from "react";
 import { TextField } from "@mui/material";
+import { SearchBarProps } from "../types/types";
 
-interface SearchBarProps {
-  onSearch: (query: string) => void;
-}
-
-function SearchBar({ onSearch }: SearchBarProps) {
+function SearchBar({ onSearch, label }: SearchBarProps) {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onSearch(e.target.value);
   };
 
   return (
     <TextField
-      label="Search for author"
+      label={label}
       variant="outlined"
       onChange={handleSearchChange}
       fullWidth
