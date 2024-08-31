@@ -39,8 +39,6 @@ export async function POST(request: Request) {
             firstName: body.firstName,
             lastName: body.lastName
         });
-        console.log(params.firstName);
-        console.log(params.lastName);
 
         if (!params.firstName || !params.lastName) {
             return new Response(JSON.stringify({ error: 'Both first and last name are required' }), { status: 400 });
@@ -48,9 +46,7 @@ export async function POST(request: Request) {
 
         // Check if the author already exists
         const existingAuthor = await authorService.getAuthorByName(params.firstName, params.lastName);
-        console.log(existingAuthor);
         if (existingAuthor) {
-            console.log("Author already exists");
             return new Response(JSON.stringify({ error: 'Author already exists' }), { status: 409 });
         }
 
