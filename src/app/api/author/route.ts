@@ -17,7 +17,7 @@ export async function GET(request: Request) {
         });
 
         if (params.name) {
-            const authors = await authorService.getAuthorByName(params.name);
+            const authors = await authorService.searchAuthorByName(params.name);
             return new Response(JSON.stringify(authors), { status: 200 });
         } else {
             const authors = await authorService.getAllAuthors();
@@ -36,13 +36,22 @@ export async function POST(request: Request) {
         const params = ParamsSchema.parse({
             name: body.name,
         });
+        console.log(params.name);
 
-        if (params.name) {
-            const newAuthor = await authorService.createAuthor(params.name);
-            return new Response(JSON.stringify(newAuthor), { status: 201 });
-        } else {
+        if (!params.name) {
             return new Response(JSON.stringify({ error: 'Name is required' }), { status: 400 });
         }
+
+        // Check if the author already exists
+        const existingAuthor = await authorService.getAuthorByName(params.name);
+        console.log(existingAuthor);
+        if (existingAuthor) {
+            console.log("Author already exists");
+            return new Response(JSON.stringify({ error: 'Author already exists' }), { status: 409 });
+        }
+
+        const newAuthor = await authorService.createAuthor(params.name);
+        return new Response(JSON.stringify(newAuthor), { status: 201 });
     } catch (error) {
         console.error('Error creating author:', error);
         return new Response(JSON.stringify({ error: 'Internal Server Error' }), { status: 500 });

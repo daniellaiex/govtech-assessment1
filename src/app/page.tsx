@@ -5,10 +5,11 @@ import { Box, Tabs, Tab, Typography, Button } from "@mui/material";
 import AuthorTable from "./components/AuthorTable";
 import SearchBar from "./components/SearchBar";
 import AddAuthorModal from "./components/AddAuthorModal";
+import Toast from "./components/Toast";
 
 interface Author {
   id: number;
-  name: string;
+  authorName: string;
   createdAt: string;
 }
 
@@ -25,6 +26,9 @@ export default function Home() {
   const [authors, setAuthors] = useState<Author[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [toastOpen, setToastOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastType, setToastType] = useState<'success' | 'error'>('success');
 
   useEffect(() => {
     const fetchAuthors = async () => {
@@ -43,15 +47,29 @@ export default function Home() {
   };
 
   const handlePost = async (name: string) => {
-    const response = await fetch('/api/author', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name }),
-    });
-    const data = await response.json();
-    setAuthors((prevAuthors) => [...prevAuthors, data]);
+    try {
+      const response = await fetch('/api/author', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name }),
+      });
+
+      console.log(response);
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to add author');
+      }
+
+      const data = await response.json();
+      setAuthors((prevAuthors) => [...prevAuthors, data]);
+      showToast('Author has been added', 'success');
+      setIsModalOpen(false);
+    } catch (error: any) {
+      showToast(error.message, 'error');
+    }
   };
 
   const handleSearch = async (query: string) => {
@@ -60,7 +78,6 @@ export default function Home() {
       const data = await response.json();
       setAuthors(data);
     } else {
-      // Fetch all authors if the search query is empty
       const response = await fetch('/api/author');
       const data = await response.json();
       setAuthors(data);
@@ -69,6 +86,16 @@ export default function Home() {
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
+  };
+
+  const showToast = (message: string, type: 'success' | 'error') => {
+    setToastMessage(message);
+    setToastType(type);
+    setToastOpen(true);
+  };
+
+  const handleToastClose = () => {
+    setToastOpen(false);
   };
 
   return (
@@ -104,6 +131,7 @@ export default function Home() {
         )}
       </Box>
       <AddAuthorModal open={isModalOpen} onClose={() => setIsModalOpen(false)} onSubmit={handlePost} />
+      <Toast open={toastOpen} message={toastMessage} onClose={handleToastClose} type={toastType} />
     </main>
   );
 }

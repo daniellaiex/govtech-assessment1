@@ -13,8 +13,8 @@ const getAuthorById = async (id: number) => {
   });
 };
 
-const getAuthorByName = async (name: string) => {
-  const authors = await prisma.author.findMany({
+const searchAuthorByName = async (name: string) => {
+  return await prisma.author.findMany({
     where: {
       authorName: {
         startsWith: name,
@@ -22,7 +22,14 @@ const getAuthorByName = async (name: string) => {
       }
     },
   });
-  return authors;
+}
+
+const getAuthorByName = async (name: string) => {
+  return await prisma.author.findFirst({
+    where: {
+      authorName: name,
+    },
+  });
 }
 
 const createAuthor = async (name: string) => {
@@ -36,6 +43,7 @@ const createAuthor = async (name: string) => {
 export const authorService = {
   getAllAuthors,
   getAuthorById,
+  searchAuthorByName,
   getAuthorByName,
   createAuthor
 }
