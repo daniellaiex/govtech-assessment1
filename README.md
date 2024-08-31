@@ -15,6 +15,7 @@ Features:
 * Sorting function by ID, Name and Username
 * Logical sectioning of data on the table
 
+## Running the project
 ### Prerequisites
 - Node.js and npm (or yarn) installed on your system.
 
