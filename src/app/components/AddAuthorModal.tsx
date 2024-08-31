@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Box, Typography, TextField, Button, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { set } from 'zod';
 
 interface AddAuthorModalProps {
   open: boolean;
@@ -20,6 +21,8 @@ const AddAuthorModal: React.FC<AddAuthorModalProps> = ({ open, onClose, onSubmit
         const capitalizedFirstName = capitalizeFirstLetter(firstName);
         const capitalizedLastName = capitalizeFirstLetter(lastName);
         await onSubmit(capitalizedFirstName, capitalizedLastName);
+        setFirstName('');
+        setLastName('');
     };
 
     return (
