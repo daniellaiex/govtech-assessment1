@@ -12,8 +12,14 @@ const AddAuthorModal: React.FC<AddAuthorModalProps> = ({ open, onClose, onSubmit
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
 
+    const capitalizeFirstLetter = (string: string) => {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+
     const handleSubmit = async () => {
-        await onSubmit(firstName, lastName);
+        const capitalizedFirstName = capitalizeFirstLetter(firstName);
+        const capitalizedLastName = capitalizeFirstLetter(lastName);
+        await onSubmit(capitalizedFirstName, capitalizedLastName);
     };
 
     return (
