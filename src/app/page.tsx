@@ -42,7 +42,7 @@ export default function Home() {
     setAuthors(data);
   };
 
-  const handlePost = async () => {
+  const handlePost = async (name: string) => {
     const response = await fetch('/api/author', {
       method: 'POST',
       headers: {
@@ -88,6 +88,7 @@ export default function Home() {
               <Button variant="contained" onClick={() => setIsModalOpen(true)}>
                 Add Author
               </Button>
+
             </Box>
             <AuthorTable authors={authors} />
           </Box>
