@@ -53,7 +53,7 @@ const createAuthor = async (firstName: string, lastName: string) => {
 
 export const authorService = {
   getAllAuthors,
-  getAuthorById,
+  // getAuthorById,
   searchAuthorByName,
   getAuthorByName,
   createAuthor

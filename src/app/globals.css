@@ -86,6 +86,11 @@
   margin-bottom: 0.5rem;
 }
 
+.blue-link {
+  color: blue;
+  text-decoration: underline;
+}
+
 /* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;

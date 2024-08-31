@@ -6,6 +6,7 @@ import AuthorTable from "./components/AuthorTable";
 import SearchBar from "./components/SearchBar";
 import AddAuthorModal from "./components/AddAuthorModal";
 import Toast from "./components/Toast";
+import UserTable from "./components/UserTable";
 
 interface Author {
   id: number;
@@ -22,10 +23,10 @@ interface User {
 
 export default function Home() {
   const [tabIndex, setTabIndex] = useState(0);
-  const [id, setId] = useState('');
-  const [name, setName] = useState('');
+  // const [id, setId] = useState('');
+  // const [name, setName] = useState('');
   const [authors, setAuthors] = useState<Author[]>([]);
-  const [users, setUsers] = useState<User[]>([]);
+  // const [users, setUsers] = useState<User[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [toastOpen, setToastOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
@@ -126,10 +127,7 @@ export default function Home() {
         {tabIndex === 1 && (
           <Box className="box-padding">
             <SearchBar onSearch={handleSearch} />
-            {/* Replace with UserTable when available */}
-            <Typography variant="h6" component="h2" align="center">
-              User Table Placeholder
-            </Typography>
+            <UserTable />
           </Box>
         )}
       </Box>
