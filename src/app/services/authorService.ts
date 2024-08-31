@@ -1,6 +1,5 @@
 import exp from "constants";
 import prisma from "../../../prisma/client";
-import { get } from "http";
 
 const getAllAuthors = async () => {
   return await prisma.author.findMany();
@@ -15,11 +14,15 @@ const getAuthorById = async (id: number) => {
 };
 
 const getAuthorByName = async (name: string) => {
-  return await prisma.author.findUnique({
+  const authors = await prisma.author.findMany({
     where: {
-      authorName: name,
+      authorName: {
+        startsWith: name,
+        mode: 'insensitive',
+      }
     },
   });
+  return authors;
 }
 
 const createAuthor = async (name: string) => {

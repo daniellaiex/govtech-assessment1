@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useEffect } from "react";
+import { Box, Tabs, Tab, Typography, Button } from "@mui/material";
 import AuthorTable from "./components/AuthorTable";
 import SearchBar from "./components/SearchBar";
+import AddAuthorModal from "./components/AddAuthorModal";
 
 interface Author {
   id: number;
@@ -10,10 +12,19 @@ interface Author {
   createdAt: string;
 }
 
+interface User {
+  id: number;
+  name: string;
+  role: string;
+}
+
 export default function Home() {
+  const [tabIndex, setTabIndex] = useState(0);
   const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [authors, setAuthors] = useState<Author[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchAuthors = async () => {
@@ -56,29 +67,42 @@ export default function Home() {
     }
   };
 
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabIndex(newValue);
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <h1>Author Adding System</h1>
-        <div>
-          <label>
-            Name:
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-          </label>
-          <button onClick={handlePost}>Create Author</button>
-        </div>
-        <SearchBar onSearch={handleSearch} />
-        {authors? (
-          <div>
-            <h2>Authors</h2>
+    <main className="flex min-h-screen flex-col items-center p-24">
+      <Typography variant="h4" component="h1" align="center" gutterBottom>
+        Author/User Registry
+      </Typography>
+      <Box sx={{ width: '100%' }}>
+        <Tabs value={tabIndex} onChange={handleTabChange} centered>
+          <Tab label="Author" />
+          <Tab label="User" />
+        </Tabs>
+        {tabIndex === 0 && (
+          <Box sx={{ p: 3 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+              <SearchBar onSearch={handleSearch} />
+              <Button variant="contained" onClick={() => setIsModalOpen(true)}>
+                Add Author
+              </Button>
+            </Box>
             <AuthorTable authors={authors} />
-          </div>
-        ) : (
-          <div>
-            <p>No authors found.</p>
-          </div>
+          </Box>
         )}
-      </div>
+        {tabIndex === 1 && (
+          <Box sx={{ p: 3 }}>
+            <SearchBar onSearch={handleSearch} />
+            {/* Replace with UserTable when available */}
+            <Typography variant="h6" component="h2" align="center">
+              User Table Placeholder
+            </Typography>
+          </Box>
+        )}
+      </Box>
+      <AddAuthorModal open={isModalOpen} onClose={() => setIsModalOpen(false)} onSubmit={handlePost} />
     </main>
   );
 }
