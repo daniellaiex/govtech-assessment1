@@ -15,16 +15,22 @@ Features:
 * Sorting function by ID, Name and Username
 * Logical sectioning of data on the table
 
-## Running the project
-### Prerequisites
+## Prerequisites
 - Node.js and npm (or yarn) installed on your system.
+- Add the .env file sent over. It should contain DATABASE_URL="..."
+- Docker installed if you are using it to run this project
 
+## Running the project via Docker
+1. ```docker-compose build```
+2. ```docker-compose up```
+
+## Running the project locally
 ### Install Dependencies
 - ```npm install```
 
 ### Set up the database
-1. Add the .env file sent over. It should contain DATABASE_URL="..."
-2. Run ```npx prisma migrate dev```. Or if you would like to start the database from scratch, you may run ```npx prisma migrate reset```
+- Run ```npx prisma migrate dev```
+- Or if you would like to start the database from scratch, you may run ```npx prisma migrate reset```
 
 ### Start the application
 - Development server: ```npm run dev```
