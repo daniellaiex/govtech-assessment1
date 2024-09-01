@@ -2,8 +2,9 @@
 ## Project Title: Author/User Registry
 
 ### Description
-This project is a single-page application (SPA) built with React JS. It allows users to:
+This project is a single-page application (SPA) built with React.js, PostgreSQL, and Node.js. It leverages Prisma for database management, Docker for containerization, and is developed using TypeScript.
 
+It allows users to:
 - Submit Author Names: Users can enter author names into a form and submit them.
 - Display Submitted Authors: The submitted author names are displayed in a list on the page.
 - Retrieve User List from API: The application fetches a list of users from an external API (https://jsonplaceholder.typicode.com/users).
