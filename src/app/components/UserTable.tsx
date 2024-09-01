@@ -1,35 +1,38 @@
 import React, { useState } from 'react';
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Accordion, AccordionSummary, AccordionDetails, TableSortLabel, Tab } from '@mui/material';
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Accordion, AccordionSummary, AccordionDetails, TableSortLabel } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { UserTableProps, UserKeys } from '../types/types';
 
 const UserTable: React.FC<UserTableProps> = ({ users }) => {
     const [sortConfig, setSortConfig] = useState<{ key: UserKeys, direction: 'asc' | 'desc' }>({ key: 'id', direction: 'asc' });
-    const userHeaders: {key: UserKeys, label: string}[] = [
-        { key: 'id', label: 'ID' },
-        { key: 'name', label: 'Name' },
-        { key: 'email', label: 'Email' },
-        { key: 'username', label: 'Username' },
-        { key: 'address', label: 'Address' },
-        { key: 'phone', label: 'Phone' },
-        { key: 'website', label: 'Website' },
-        { key: 'company', label: 'Company' }
+    const userHeaders: {key: UserKeys, label: string, sortable: boolean}[] = [
+        { key: 'id', label: 'ID', sortable: true },
+        { key: 'name', label: 'Name', sortable: true },
+        { key: 'email', label: 'Email', sortable: false },
+        { key: 'username', label: 'Username', sortable: true },
+        { key: 'address', label: 'Address', sortable: false },
+        { key: 'phone', label: 'Phone', sortable: false },
+        { key: 'website', label: 'Website', sortable: false },
+        { key: 'company', label: 'Company', sortable: false }
     ]
 
     const handleSort = (key: UserKeys) => {
+        const header = userHeaders.find(header => header.key === key);
+        if (!header || !header.sortable) return;
+
         let direction: 'asc' | 'desc' = 'asc';
         if (sortConfig.key === key && sortConfig.direction === 'asc') {
-        direction = 'desc';
+            direction = 'desc';
         }
         setSortConfig({ key, direction });
     };
 
     const sortedUsers = [...users].sort((a, b) => {
         if (a[sortConfig.key] < b[sortConfig.key]) {
-        return sortConfig.direction === 'asc' ? -1 : 1;
+            return sortConfig.direction === 'asc' ? -1 : 1;
         }
         if (a[sortConfig.key] > b[sortConfig.key]) {
-        return sortConfig.direction === 'asc' ? 1 : -1;
+            return sortConfig.direction === 'asc' ? 1 : -1;
         }
         return 0;
     });
@@ -41,6 +44,7 @@ const UserTable: React.FC<UserTableProps> = ({ users }) => {
             <TableRow className='table-header-row'>
                 {userHeaders.map((header) => (
                     <TableCell key={header.key} className='table-header-cell'>
+                        {header.sortable ? (
                         <TableSortLabel
                             active={sortConfig.key === header.key}
                             direction={sortConfig.key === header.key ? sortConfig.direction : 'asc'}
@@ -48,6 +52,9 @@ const UserTable: React.FC<UserTableProps> = ({ users }) => {
                         >
                             {header.label}
                         </TableSortLabel>
+                        ) : (
+                            header.label
+                        )}
                     </TableCell>
                 ))}
             </TableRow>
